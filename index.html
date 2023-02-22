@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Cat Pictures in Dark Mode</title>
+	<style>
+		body {
+			background-color: #212121;
+			color: #ffffff;
+			font-family: Arial, sans-serif;
+			font-size: 16px;
+			line-height: 1.5;
+			margin: 0;
+			padding: 0;
+		}
+		.container {
+			max-width: 600px;
+			margin: 0 auto;
+			padding: 20px;
+		}
+		button {
+			background-color: #4caf50;
+			border: none;
+			color: #ffffff;
+			cursor: pointer;
+			font-size: 16px;
+			padding: 10px 20px;
+			transition: background-color 0.3s ease;
+		}
+		button:hover {
+			background-color: #357a38;
+		}
+		img {
+			display: block;
+			max-width: 100%;
+			height: auto;
+			margin-bottom: 20px;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<button id="cat-button">고양이</button>
+		<img id="cat-image" src="https://cdn.pixabay.com/photo/2017/11/14/13/06/kitty-2948404_960_720.jpg" alt="Cat picture">
+	</div>
+
+	<script>
+		// get button and image elements
+		const catButton = document.getElementById("cat-button");
+		const catImage = document.getElementById("cat-image");
+
+		// add event listener to button
+		catButton.addEventListener("click", function() {
+			// fetch a random cat image from the API
+			fetch("https://aws.random.cat/meow")
+				.then(response => response.json())
+				.then(data => {
+					// set image source to the URL of the random cat image
+					catImage.src = data.file;
+				})
+				.catch(error => console.log(error));
+		});
+	</script>
+</body>
+</html>
