@@ -26,6 +26,8 @@
 			font-size: 16px;
 			padding: 10px 20px;
 			transition: background-color 0.3s ease;
+			margin: 20px auto 40px;
+			display: block;
 		}
 		button:hover {
 			background-color: #357a38;
@@ -35,26 +37,49 @@
 			max-width: 100%;
 			height: auto;
 			margin-bottom: 20px;
+			margin-left: auto;
+			margin-right: auto;
+		}
+		.loading-indicator {
+			display: none;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			color: #ffffff;
+			font-size: 24px;
+		}
+		.loading-indicator.active {
+			display: block;
+		}
+		@media (max-width: 600px) {
+			button {
+				margin: 20px auto;
+			}
 		}
 	</style>
 </head>
 <body>
 
 	<div class="container">
+		<div class="loading-indicator">Loading...</div>
 		Cat for Wodus ♥.
 		<br />
-		<button id="cat-button">GO양이</button>
-		<br />
 		<img id="cat-image" src="https://cataas.com/cat/gif?type=cute" alt="Random cat picture">
+		<button id="cat-button">GO양이</button>
 	</div>
 
 	<script>
 		// get button and image elements
 		const catButton = document.getElementById("cat-button");
 		const catImage = document.getElementById("cat-image");
+		const loadingIndicator = document.querySelector(".loading-indicator");
 
 		// add event listener to button
 		catButton.addEventListener("click", function() {
+			// show loading indicator
+			loadingIndicator.classList.add("active");
+
 			// fetch a random cat image from the API
 			fetch("https://aws.random.cat/meow")
 				.then(response => response.json())
@@ -62,7 +87,11 @@
 					// set image source to the URL of the random cat image
 					catImage.src = data.file;
 				})
-				.catch(error => console.log(error));
+				.catch(error => console.log(error))
+				.finally(() => {
+					// hide loading indicator
+					loadingIndicator.classList.remove("active");
+				});
 		});
 	</script>
 </body>
